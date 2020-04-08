@@ -482,15 +482,15 @@ std::shared_ptr<Mesh> clipMeshAgainstPlane(const Mesh& mesh, const Plane& worldS
                     using ValueType = util::PrecisionValueType<decltype(inRam)>;
                     using T = typename util::same_extent<ValueType, float>::type;
 
-                    static const auto mix = [](const PB& buffer,
-                                               const std::vector<uint32_t>& indices,
-                                               const std::vector<float>& weights) {
-                        return static_cast<ValueType>(std::inner_product(
-                            indices.begin(), indices.end(), weights.begin(), T{0}, std::plus<>{},
-                            [&](uint32_t index, float weight) {
-                                return static_cast<T>(buffer[index]) * weight;
-                            }));
-                    };
+                    [[maybe_unused]] static const auto mix =
+                        [](const PB& buffer, const std::vector<uint32_t>& indices,
+                           const std::vector<float>& weights) {
+                            return static_cast<ValueType>(std::inner_product(
+                                indices.begin(), indices.end(), weights.begin(), T{0},
+                                std::plus<>{}, [&](uint32_t index, float weight) {
+                                    return static_cast<T>(buffer[index]) * weight;
+                                }));
+                        };
 
                     auto outRam =
                         std::make_shared<BufferRAMPrecision<ValueType, PB::target>>(*inRam);
@@ -520,7 +520,6 @@ std::shared_ptr<Mesh> clipMeshAgainstPlane(const Mesh& mesh, const Plane& worldS
                     } else {  // Only interpolate floating point buffers;
                         return [outRam](const std::vector<uint32_t>& indices,
                                         const std::vector<float>& weights, std::optional<vec3>) {
-                            IVW_UNUSED_PARAM(mix);
                             const auto it = std::max_element(weights.begin(), weights.end());
                             const auto index = std::distance(weights.begin(), it);
 

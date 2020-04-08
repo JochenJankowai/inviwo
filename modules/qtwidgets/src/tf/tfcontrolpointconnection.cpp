@@ -48,10 +48,9 @@ TFControlPointConnection::TFControlPointConnection()
 
 TFControlPointConnection::~TFControlPointConnection() {}
 
-void TFControlPointConnection::paint(QPainter* p, const QStyleOptionGraphicsItem* options,
-                                     QWidget* widget) {
-    IVW_UNUSED_PARAM(options);
-    IVW_UNUSED_PARAM(widget);
+void TFControlPointConnection::paint(QPainter* p,
+                                     [[maybe_unused]] const QStyleOptionGraphicsItem* options,
+                                     [[maybe_unused]] QWidget* widget) {
 
     p->save();
     p->setRenderHint(QPainter::Antialiasing, true);
