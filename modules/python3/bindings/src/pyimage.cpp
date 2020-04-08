@@ -53,7 +53,7 @@
 
 #include <fmt/format.h>
 
-PYBIND11_MAKE_OPAQUE(inviwo::SwizzleMask);
+PYBIND11_MAKE_OPAQUE(inviwo::SwizzleMask)
 
 namespace py = pybind11;
 
