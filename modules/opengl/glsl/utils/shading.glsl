@@ -79,12 +79,14 @@ vec3 shadeDiffuse(LightParameters light_, vec3 materialDiffuseColor, vec3 positi
 
 vec3 shadeSpecular(LightParameters light_, vec3 materialSpecularColor, vec3 position, vec3 normal,
                    vec3 toCameraDir) {
+    normal = dot(toCameraDir, normal) < 0.0f ? -normal : normal;
     return shadeSpecularPhongCalculation(light_, materialSpecularColor, normal,
                                          normalize(light_.position - position), toCameraDir);
 }
 
 vec3 shadeBlinnPhong(LightParameters light_, vec3 materialAmbientColor, vec3 materialDiffuseColor,
                      vec3 materialSpecularColor, vec3 position, vec3 normal, vec3 toCameraDir) {
+    normal = dot(toCameraDir, normal) < 0.0f ? -normal : normal;
     vec3 toLightDir = normalize(light_.position - position);
     vec3 resAmb = shadeAmbient(light_, materialAmbientColor);
     vec3 resDiff = shadeDiffuseCalculation(light_, materialDiffuseColor, normal, toLightDir);
@@ -95,6 +97,7 @@ vec3 shadeBlinnPhong(LightParameters light_, vec3 materialAmbientColor, vec3 mat
 
 vec3 shadePhong(LightParameters light_, vec3 materialAmbientColor, vec3 materialDiffuseColor,
                 vec3 materialSpecularColor, vec3 position, vec3 normal, vec3 toCameraDir) {
+    normal = dot(toCameraDir, normal) < 0.0f ? -normal : normal;
     vec3 toLightDir = normalize(light_.position - position);
     vec3 resAmb = shadeAmbient(light_, materialAmbientColor);
     vec3 resDiff = shadeDiffuseCalculation(light_, materialDiffuseColor, normal, toLightDir);
